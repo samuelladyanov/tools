@@ -7,7 +7,7 @@ import mimetypes
 def copy_video(video_dir, video_output):
     '''This function copies video files from a one directory into another.'''
 
-    os.makedirs(video_output, exist_ok=True)
+    os.makedirs(sys.argv[2], exist_ok=True)
 
     def check_video(video):
         '''Checks if a file has a video extension'''
@@ -31,22 +31,18 @@ def copy_video(video_dir, video_output):
 if __name__=='__main__':
 
     if '-h' in sys.argv:
-        print('''                 Enter a full path with quotations to your video folder and output folder in the following format: "home/user/videos" "home/user/output". \n 
+        print('''                 Enter a full path to your video folder. For output folder, you can have the folder created by specifying a name (ex:'output') and it will save in your working directory. To save to a different path, use the full path followed by "/name_of_new_folder" to generate folder. If name of new folder is not specified, video files will copy into existing directory. NOTE: if your output path isn't an existing path it will create a nested folder in your working directory in the format of the path you entered.  \n 
                  Missing Argument: Provide two paths or this error will occur. \n
-                 Invalid folder input/output path: This error occurs when the folder you passed does not exist or the path was not a full path.\n''')
+                 Invalid folder path: This error occurs when the folder you passed does not exist or the path was not a full path.\n''')
    
-    elif len(sys.argv) == 1:
-        print('Missing Argument: Enter a path to a video folder. (reference -h for help)')
-        exit()
-    elif len(sys.argv) == 2:
-        print('Missing Argument: Enter a path to your output folder. (reference -h for help)')
+    elif len(sys.argv) != 3:
+        print('Missing Argument: 1 or 2 paths are missing (reference -h for help)')
         exit()
     
     else:
         if not os.path.exists(sys.argv[1]):
             print('Invalid video folder path. (reference -h for help)')
             exit()
-        if not os.path.exists(sys.argv[2]):
-            print('Invalid folder output path. (reference -h for help)')
-            exit()    
+        
+            
         copy_video(sys.argv[1], sys.argv[2])
